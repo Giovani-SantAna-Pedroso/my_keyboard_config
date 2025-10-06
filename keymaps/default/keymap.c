@@ -21,11 +21,11 @@
 
 
 #define _QWERTY 0
-#define _LOWER 1
-#define _RAISE 2
+#define _NUM 1
+#define _AUX 2
 
-#define RAISE MO(_RAISE)
-#define LOWER MO(_LOWER)
+#define AUX MO(_AUX)
+#define NUM MO(_NUM)
 
 #define ONE_GRV LT(1,KC_GRAVE)
 #define CTL_Z LCTL_T(KC_Z)
@@ -34,73 +34,97 @@
 #define LG_QUOT LGUI_T(KC_QUOT)
 #define CTL_ESC LCTL_T(KC_ESC)
 #define CTL_SLS LCTL_T(KC_SLSH)
-#define LT2_COL LT(_RAISE, KC_SCLN)
+#define LT2_COL LT(_AUX, KC_SCLN)
 
+/* Its not working i will fix later
+ */
+/* // Tap Dance declarations */
+/* enum { */
+/*     TD_Q_ESC    , */
+/*     TD_BSPC_ESC    , */
+/* }; */
+/**/
+/* // Tap Dance definitions */
+/* tap_dance_action_t tap_dance_actions[] = { */
+/*     // Tap once for Escape, twice for Caps Lock */
+/*     [TD_Q_ESC] = ACTION_TAP_DANCE_DOUBLE(BR_Q, KC_ESC), */
+/* }; */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // Layer default
-    [_QWERTY] = LAYOUT_6x6(
+    [_QWERTY] = LAYOUT_6x6(//OK
 
 
             // I mess up, the wiring the 6 first entry in every row must be inverted
             // row 0
-            BR_T,  BR_R  , BR_E,  BR_W    ,BR_Q  , BR_QUOT ,
-            BR_Y   , BR_U  , BR_I  , BR_O  , BR_P  ,BR_LBRC,
+            BR_T,  BR_R  , BR_E,  BR_W    ,BR_Q  , XXXXXXX ,
+            BR_Y   , BR_U  , BR_I  , BR_O  , BR_P  ,XXXXXXX,
 
-            // row 1
-            BR_G , BR_F ,  BR_D ,   BR_S , BR_A    ,   KC_TAB,
-            BR_H   , BR_J  , BR_K  , BR_L  ,BR_CCED,BR_RBRC,
+            // row 1 - home row - I added the mods on this row
+            BR_G , MT(MOD_LSFT, BR_F) , MT(MOD_LCTL, BR_D ), MT(MOD_LALT, BR_S ),  MT(MOD_LGUI, BR_A   ) ,XXXXXXX,
+            BR_H , MT(MOD_RSFT, BR_J) , MT(MOD_RCTL, BR_K ), MT(MOD_RALT, BR_L ) , MT(MOD_RGUI, BR_CCED) ,XXXXXXX,
+
 
             //row 2
-            BR_B,  BR_V, BR_C ,BR_X    , CTL_Z  ,KC_LSFT   ,
-            BR_N   , BR_M  ,BR_COMM, BR_DOT, BR_SCLN, KC_RSFT,
+            BR_B,  BR_V, BR_C ,BR_X    , BR_Z  ,XXXXXXX  ,
+            BR_N   , BR_M  ,BR_COMM, BR_DOT, BR_SCLN, XXXXXXX,
 
-            // row 3
-            KC_SPC, KC_ESC  ,TT(_LOWER)   ,  _______ , _______  , _______  ,
-            KC_ENT   , KC_BSPC  , TT(_LOWER)  , KC_8  , KC_9  ,KC_0,
+            //* */ row 3 tumb cluster
+            LT(_NUM, KC_TAB), KC_BSPC  ,XXXXXXX ,  XXXXXXX , XXXXXXX  , XXXXXXX  ,
+            LT(_AUX, KC_ENT), KC_SPC   , XXXXXXX, XXXXXXX  , XXXXXXX  ,XXXXXXX,
 
             // I dont use this row, my key board is a 4x3 wit 3 tumb cluster btns
-            // I will remove this in the future
-            // row 4
-            ONE_GRV,KC_QUOT,ALT_SHFT,KC_LEFT,KC_RGHT,KC_SPC ,
-            KC_ENT , KC_UP  ,KC_DOWN,KC_LBRC,KC_RBRC,TT(_LOWER),
+            // I will remove this in the future row 4
+            XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX ,
+            XXXXXXX , XXXXXXX  ,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
 
             // row 5
-            KC_BSPC,ALT_MENU,KC_LGUI,       KC_RALT,CTL_ESC,KC_TAB ,
-            KC_HOME,        KC_PGUP,
-            KC_END ,        KC_PGDN
+            XXXXXXX,XXXXXXX,XXXXXXX,       XXXXXXX,XXXXXXX,XXXXXXX ,
+            XXXXXXX,        XXXXXXX,
+            XXXXXXX ,       XXXXXXX
                 ),
 
-            // Laywer 1
-    [_LOWER] = LAYOUT_6x6(
+            // Laywer Numbers
+    [_NUM] = LAYOUT_6x6(
 
-            _______ ,_______  ,_______  ,_______  ,_______  ,_______  ,
-            _______ ,KC_7  ,KC_8  ,KC_9  ,KC_MINUS ,_______ ,
+            KC_5 ,  KC_4,  KC_3  ,KC_2,KC_1  ,XXXXXXX  ,
+            KC_6 ,KC_7  ,KC_8  ,KC_9  ,KC_0 ,XXXXXXX ,
 
-            _______ ,_______ ,_______  ,_______ ,_______ ,_______,
-            _______ ,KC_4  ,KC_5  ,KC_6  ,KC_0,_______ ,
 
-            _______ ,_______ ,_______  ,_______ ,_______ ,_______,
-            KC_DOWN,KC_3  ,KC_2  ,KC_1  ,KC_EQUAL,_______,
+            LGUI(KC_T), MT(MOD_LSFT, XXXXXXX) , MT(MOD_RCTL, XXXXXXX ), MT(MOD_LALT, XXXXXXX ),  MT(MOD_LGUI, BR_QUOT   ) ,XXXXXXX,
+            XXXXXXX, MT(MOD_RSFT, BR_MINS) , MT(MOD_LCTL, BR_EQL ), MT(MOD_RALT, BR_TILD ) , MT(MOD_RGUI, BR_LBRC) ,XXXXXXX,
 
-            _______ ,_______ ,_______  ,_______ ,_______ ,_______,
-            KC_AMPR,KC_P1  ,KC_P2  ,KC_P3  ,KC_PSLS,_______,
+            LSG(KC_Q) ,LCTL(KC_V) ,LCTL(KC_C)  ,LCTL(KC_Z) ,BR_BSLS ,XXXXXXX,
+            XXXXXXX,  BR_ACUT,XXXXXXX  ,BR_SLSH  ,BR_RBRC,XXXXXXX,
 
-            QK_BOOT  ,_______,_______,_______,_______,_______,
-            _______,_______,KC_PDOT,KC_P0  ,KC_PEQL,_______,
+            XXXXXXX ,XXXXXXX ,XXXXXXX  ,XXXXXXX ,XXXXXXX ,XXXXXXX,
+            XXXXXXX,XXXXXXX  ,XXXXXXX  ,XXXXXXX  ,XXXXXXX,XXXXXXX,
 
-            _______,_______,_______,       _______,_______,_______,
-                    _______,       _______,
-                    _______,       _______
+            XXXXXXX  ,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
+            XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX  ,XXXXXXX,XXXXXXX,
+
+            XXXXXXX,XXXXXXX,XXXXXXX,       XXXXXXX,XXXXXXX,XXXXXXX,
+                    XXXXXXX,       XXXXXXX,
+                    XXXXXXX,       XXXXXXX
                     ),
-    // Layer 2
-    [_RAISE] = LAYOUT_6x6(
-                    _______,_______,_______,_______,_______,_______,                                       _______,_______,_______,_______,_______,_______,
-                    _______,_______,_______,MS_UP,  _______,_______,                                       _______,_______,_______,_______,_______,_______,
-                    _______,_______,MS_LEFT,MS_DOWN,MS_RGHT,_______,                                       _______,_______,_______,_______,_______,KC_MPLY,
-                    _______,_______,_______,_______,_______,_______,                                       _______,_______,KC_MPRV,KC_MNXT,_______,_______,
-                    QK_BOOT  ,_______,_______,MS_BTN1,MS_BTN2,_______,                                       KC_WBAK,KC_VOLU,KC_VOLD,KC_MUTE,_______,_______,
-                    _______,_______,_______,       _______,_______,_______,
-                    _______,       _______,
-                    _______,       _______
-                    )
+    // Layer 2 moviment
+    [_AUX] = LAYOUT_6x6(
+            KC_F5,KC_F4,KC_F3,KC_F2,KC_F1,XXXXXXX,
+            KC_F6,KC_F7,KC_F8,KC_F9,KC_F10,XXXXXXX,
+
+            XXXXXXX,KC_ESC,KC_DEL,XXXXXXX,KC_CAPS,XXXXXXX,
+            KC_LEFT,KC_DOWN,KC_UP,KC_RIGHT,KC_F11,XXXXXXX,
+
+            KC_MUTE,KC_MEDIA_NEXT_TRACK,KC_MEDIA_PREV_TRACK,KC_MEDIA_STOP,KC_MEDIA_PLAY_PAUSE,XXXXXXX,
+            XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,KC_F12,
+
+            KC_AUDIO_VOL_UP,KC_AUDIO_VOL_DOWN,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
+            XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
+
+            XXXXXXX  ,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
+            XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
+
+            XXXXXXX,XXXXXXX,XXXXXXX,       XXXXXXX,XXXXXXX,XXXXXXX,
+            XXXXXXX,       XXXXXXX,
+            XXXXXXX,       XXXXXXX
+            )
 };
